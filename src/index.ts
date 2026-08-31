@@ -1,10 +1,15 @@
 import { Elysia, t } from "elysia";
 import dotenv from "dotenv"
-import axios from "axios";
+import cors from "@elysiajs/cors"
 import { waifuHandler } from "./controller/waifu";
 import { xtalHandler } from "./controller/toram/xtal";
 dotenv.config()
-const app = new Elysia({prefix: "/api"})
+const app = new Elysia({ prefix: "/api" })
+  .use(cors({
+    origin: true,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    credentials: false
+  }))
   .get("/waifu", () => waifuHandler())
   .get("/toram/xtal", ({ query }) => xtalHandler(query.name), {
     query: t.Object({

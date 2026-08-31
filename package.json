@@ -6,9 +6,11 @@
     "dev": "bun run --watch src/index.ts"
   },
   "dependencies": {
+    "@elysiajs/cors": "^1.4.2",
     "@supabase/supabase-js": "^2.112.4",
     "axios": "^1.20.0",
     "cheerio": "^1.2.0",
+    "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "elysia": "latest"
   },
