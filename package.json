@@ -1,9 +1,11 @@
 {
   "name": "elysia",
   "version": "1.0.50",
+  "author": "dimasyoga42",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "bun run --watch src/index.ts"
+    "dev": "bun run --watch src/index.ts",
+    "postinstall": "prisma skills sync || exit 0"
   },
   "dependencies": {
     "@elysiajs/cors": "^1.4.2",
@@ -12,7 +14,9 @@
     "cheerio": "^1.2.0",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
-    "elysia": "latest"
+    "elysia": "latest",
+    "fast-xml-parser": "^5.11.1",
+    "mongoose": "^9.9.4"
   },
   "devDependencies": {
     "bun-types": "latest"

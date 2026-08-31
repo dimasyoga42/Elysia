@@ -1,9 +1,8 @@
 import { Elysia, t } from "elysia";
 import dotenv from "dotenv"
 import cors from "@elysiajs/cors"
-import { waifuHandler } from "./controller/waifu";
-import { xtalHandler } from "./controller/toram/xtal";
 import { checkRateLimit } from "./lib/rate";
+import { Router } from "./route/main";
 //import { rateLimitPlugin } from "./plugins/rate-limit";
 dotenv.config()
 const app = new Elysia({ prefix: "/api" })
@@ -41,13 +40,7 @@ const app = new Elysia({ prefix: "/api" })
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     credentials: false
   }))
-  .get("/waifu", () => waifuHandler())
-  .get("/toram/xtal", ({ query }) => xtalHandler(query.name), {
-    query: t.Object({
-      name: t.String({ minLength: 1, error: "name wajib di isi" })
-    }
-    )
-  })
+  .use(Router)
   .listen(3000);
 
 
