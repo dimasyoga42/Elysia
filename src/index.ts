@@ -4,7 +4,7 @@ import cors from "@elysiajs/cors"
 import { waifuHandler } from "./controller/waifu";
 import { xtalHandler } from "./controller/toram/xtal";
 import { checkRateLimit } from "./lib/rate";
-import { rateLimitPlugin } from "./plugins/rate-limit";
+//import { rateLimitPlugin } from "./plugins/rate-limit";
 dotenv.config()
 const app = new Elysia({ prefix: "/api" })
   .onError(({ code, error, set }) => {
