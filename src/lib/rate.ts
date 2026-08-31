@@ -1,16 +1,14 @@
-type Entry = { timestamps: Number[] };
+type Entry = { timestamps: number[] };
 
 const store = new Map<string, Entry>();
 
 setInterval(() => {
   const now = Date.now();
   for (const [key, entry] of store.entries()) {
-    entry.timestamps = entry.timestamps.filter((t) => now - t < 60_000);
+    entry.timestamps = entry.timestamps.filter((t: number) => now - t < 60_000);
     if (entry.timestamps.length === 0) store.delete(key);
   }
 }, 5 * 60_000);
-
-
 
 export const checkRateLimit = (
   key: string,
@@ -20,11 +18,14 @@ export const checkRateLimit = (
   const now = Date.now();
   const entry = store.get(key) ?? { timestamps: [] };
 
-  entry.timestamps = entry.timestamps.filter((t) => now - t < windowMs);
+  entry.timestamps = entry.timestamps.filter((t: number) => now - t < windowMs);
 
   if (entry.timestamps.length >= limit) {
     store.set(key, entry);
-    const resetMs = windowMs - (now - entry.timestamps[0]);
+
+    const oldest = entry.timestamps[0] ?? now; // fallback kalau undefined
+    const resetMs = windowMs - (now - oldest);
+
     return { allowed: false, remaining: 0, resetMs };
   }
 
