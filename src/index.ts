@@ -1,9 +1,18 @@
 import { Elysia, t } from "elysia";
 import dotenv from "dotenv"
 import axios from "axios";
+import { waifuHandler } from "./controller/waifu";
+import { xtalHandler } from "./controller/toram/xtal";
 dotenv.config()
-const app = new Elysia()
-app.onError(({code, error, set}) => {
+const app = new Elysia({prefix: "/api"})
+  .get("/waifu", () => waifuHandler())
+  .get("/toram/xtal", ({ query }) => xtalHandler(query.name), {
+    query: t.Object({
+      name: t.String({ minLength: 1, error: "name wajib di isi" })
+    }
+    )
+    })
+  .onError(({ code, error, set }) => {
   if (code === "VALIDATION") {
     set.status = 400
     return {
@@ -16,23 +25,10 @@ app.onError(({code, error, set}) => {
     }
   }
 })
-app.get("/", () => {
-  return {
-    message: "elysia js"
-  }
-});
 
-app.get("/waifu", async () => {
-  try {
-    const res = await axios.get("https://api.waifu.im/images")
-    const image = await axios.get(res.data.items[0]?.url, { responseType: 'arraybuffer' })
-    return new Response(image.data, {
-      headers: { 'Content-Type': 'image/jpeg' }
-    })
-  } catch (err) {
-   Error("terjadi kesalahan pada server")
-  }
-})
+
+
+
 app.listen(3000);
 
 
