@@ -4,6 +4,7 @@ import { xtalHandler } from "../controller/toram/xtal";
 import { gempaHendler } from "../controller/etc/gempa";
 
 export const Router = new Elysia()
+  .get("/", () => "go to app.shinraapi.cloud" )
   .get("/waifu", () => waifuHandler())
   .get("/toram/xtal", ({ query }) => xtalHandler(query.name), {
     query: t.Object({
